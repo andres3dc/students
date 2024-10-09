@@ -1,5 +1,6 @@
 package co.edu.umanizales.studends.controller;
 
+import co.edu.umanizales.studends.controller.dto.PercentageByGenderDTO;
 import co.edu.umanizales.studends.model.Student;
 import co.edu.umanizales.studends.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,10 @@ public class StudentController {
     }
 
     @GetMapping("/gender-percentage-work-salary/{gender}")
-    public String getGenderPercentageWorkSalary(@PathVariable("gender") byte gender) {
-        float percentageWork = studentService.getPercentageWorkByGender(gender);
-        double salaryAverage = studentService.getAverageSalaryByGender(gender);
-        if(gender == 1 || gender == 2) {
-            return "El porcentaje del genero " + gender + " que trabaja es: " + percentageWork + " y el promedio del sueldo es: " + salaryAverage;
-        }else {
-            return "Ingrese un genero valido";
+    public PercentageByGenderDTO getGenderPercentageWorkSalary(@PathVariable("gender") byte gender) {
+        if(studentService.getStudents().size() == 0) {
+            return null;
         }
+        return studentService.getPercentageWorkByGender(gender);
     }
 }

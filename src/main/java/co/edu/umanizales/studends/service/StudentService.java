@@ -1,5 +1,6 @@
 package co.edu.umanizales.studends.service;
 
+import co.edu.umanizales.studends.controller.dto.PercentageByGenderDTO;
 import co.edu.umanizales.studends.model.Student;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
@@ -57,15 +58,14 @@ public class StudentService {
         return countGender;
     }
 
-    public double getAverageSalaryByGender(byte gender) {
-        return getTotalSalaryByGender(gender) / filterByGenderWork(gender);
-    }
-
-    public float getPercentageWorkByGender(byte gender) {
-        return filterByWorkByGender(gender) / filterByGender(gender);
+    public PercentageByGenderDTO getPercentageWorkByGender(byte gender) {
+        float percentageWork = filterByWorkByGender(gender) / filterByGender(gender);
+        double averageSalary = getTotalSalaryByGender(gender) / filterByGenderWork(gender);
+        return new PercentageByGenderDTO(percentageWork, averageSalary);
     }
 
     public float getPercentageGender(byte gender) {
         return (float) filterByGender(gender) / students.size();
     }
 }
+
